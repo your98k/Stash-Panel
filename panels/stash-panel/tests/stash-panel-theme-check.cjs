@@ -231,14 +231,76 @@ check('native error state never paints an inset rectangle or backdrop', () => {
     } finally { if (flag) scripting.Widget[flag] = false; }
   }
 });
+// frame/zh.md defines separate fixed and flexible overloads, even across axes.
+// These mock-tree checks enforce that contract, not native pixel widths or clipping.
+check('ReferenceStyle uses equal flexible columns and never mixes frame overloads', () => {
+  let baselineFrames;
+  const samples = [
+    { down: 999 * 1024 ** 5, up: 1, values: ['999.0 PB', '1 B'], mode: 0, modeText: '直连', subs: [], quota: '未添加' },
+    { down: 1, up: 999 * 1024 ** 5, values: ['1 B', '999.0 PB'], mode: 1, modeText: '分流', subs: [{}], quota: '未读取' },
+    { down: 0, up: 0, values: ['0 B', '0 B'], mode: 2, modeText: '全局',
+      subs: [{ usage: { total: 8192, up: 1024, down: 1024 } }], quota: '6.0 KB' },
+  ];
+  for (const appearance of ['light', 'dark']) for (const sample of samples) {
+    const th = { ...plain, t1: resolve(plain.t1, appearance), t2: resolve(plain.t2, appearance) };
+    const stash = { t: 0, mode: sample.mode, groups: [],
+      speed: { downloadTotal: sample.down, uploadTotal: sample.up }, nodes: {} };
+    const ctx = ctxFor(th, false, stash);
+    ctx.subs = sample.subs;
+    const before = JSON.stringify(ctx);
+    const tree = render(jsx(ReferenceStyle, { ctx }));
+    const rows = tree.props.children.props.children;
+    assert.equal(rows.length, 4);
+    for (const [index, count, height, spacing, labels] of [
+      [1, 2, 49, 12, ['累计下行', '累计上行']],
+      [2, 4, 35, 5, ['策略组数', '节点延迟', '剩余流量', '运行模式']],
+    ]) {
+      const row = rows[index];
+      assert.equal(row.type, 'HStack');
+      assert.equal(row.props.spacing, spacing);
+      assert.equal(row.props.frame?.maxWidth, 'infinity', 'Row must fill available width');
+      const columns = row.props.children.filter(n => n?.type === 'VStack');
+      assert.equal(columns.length, count);
+      columns.forEach((column, i) => {
+        assert(text(column, labels[i]), 'Column order/content: ' + labels[i]);
+        assert.equal(column.props.alignment, 'center');
+        assert.deepEqual(column.props.frame, {
+          minWidth: 0, maxWidth: 'infinity', minHeight: height, maxHeight: height, alignment: 'center',
+        }, 'Columns must share shrinkable, centered flexible constraints');
+      });
+    }
+    const framed = nodes(tree).filter(n => n.props.frame !== undefined);
+    for (const { type, props: { frame } } of framed) {
+      const fixed = ['width', 'height'].some(key => key in frame);
+      const flex = ['minWidth', 'maxWidth', 'idealWidth', 'minHeight', 'maxHeight', 'idealHeight'].some(key => key in frame);
+      assert(!(fixed && flex), type + ' mixes fixed and flexible frame overloads');
+    }
+    const frames = JSON.stringify(framed.map(n => [n.type, n.props.frame]));
+    baselineFrames ??= frames;
+    assert.equal(frames, baselineFrames, 'Appearance, asymmetric totals and missing quota must not change frames');
+    for (const value of [...sample.values, sample.quota, sample.modeText]) assert(text(tree, value), 'Synthetic content missing: ' + value);
+    assert.equal(text(rows[2], sample.modeText).props.children, sample.modeText);
+    assert.equal(JSON.stringify(ctx), before, 'Synthetic context must not be mutated');
+  }
+});
 check('medium fixed row budget stays 157pt with larger metric clearance', () => {
   const tree = render(jsx(ReferenceStyle, { ctx: ctxFor(plain) }));
   const content = tree.props.children;
   const rows = content.props.children;
   assert.equal(rows.length, 4);
-  const metricHeights = nodes(rows[2]).filter(n => n.type === 'VStack' && n.props.frame?.height).map(n => n.props.frame.height);
-  assert.equal(metricHeights.join(','), '35,35,35,35');
-  assert.equal(2 * content.props.padding + 20 + 49 + 35 + 12 + 3 * content.props.spacing, 157);
+  for (const [index, count, height] of [[1, 2, 49], [2, 4, 35]]) {
+    const columns = rows[index].props.children.filter(n => n?.type === 'VStack');
+    assert.equal(columns.length, count);
+    for (const column of columns) {
+      assert.equal(column.props.frame?.minHeight, height);
+      assert.equal(column.props.frame?.maxHeight, height);
+    }
+  }
+  assert.equal(rows[0].props.frame.height, 20);
+  assert.equal(rows[3].props.frame.height, 12);
+  assert.equal(2 * content.props.padding + rows[0].props.frame.height
+    + rows[1].props.children[0].props.frame.maxHeight + rows[2].props.children[0].props.frame.maxHeight
+    + rows[3].props.frame.height + 3 * content.props.spacing, 157);
 });
 if (failures.length) { console.error(`${failures.length} theme checks failed`); process.exitCode = 1; }
 else console.log('PASS all offline TSX rendered-tree regressions; native Scripting rasterization not tested');
