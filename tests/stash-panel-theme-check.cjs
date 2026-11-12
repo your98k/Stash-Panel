@@ -180,7 +180,7 @@ check('all sizes isolate native and preview backgrounds, including image blur an
         assert.equal(backdrop.props.ignoresSafeArea, !inApp);
         assert.equal(backdrop.props.clipped, true);
         assert.equal(backdrop.props.background !== undefined, inApp);
-        assert.equal(inApp ? backdrop.props.background : backdrop.props.widgetBackground, th.bg);
+        assert.equal(JSON.stringify(inApp ? backdrop.props.background : backdrop.props.widgetBackground), JSON.stringify(th.bg));
       }
       assert(!content.props.background && !content.props.widgetBackground);
       assert(!content.props.ignoresSafeArea, 'Content must not extend beyond safe bounds');
@@ -211,7 +211,7 @@ check('host transparent, blur and image modes suppress native custom backdrops, 
         assert.equal(native.props.background, undefined);
         assert(!nodes(native).some(n => n.props.widgetBackground !== undefined || n.props.background !== undefined || n.props.fill !== undefined || n.type === 'Image'), 'Host backdrop must not be covered by custom paint/image/dim');
         const preview = render(jsx(Root, { ctx: { ...ctxFor(th, true), size } }));
-        assert.equal(preview.props.background.props.background, th.bg, 'Preview is independent of widget flags');
+        assert.equal(JSON.stringify(preview.props.background.props.background), JSON.stringify(th.bg), 'Preview is independent of widget flags');
         assert.equal(preview.props.clipShape.cornerRadius, 22);
         if (th.image) assert(nodes(preview).some(n => n.type === 'Image' && n.props.filePath === th.image.path));
       }
