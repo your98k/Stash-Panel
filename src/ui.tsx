@@ -168,24 +168,35 @@ export const asnText = (r?: NodeResult) => [r?.asn ? `AS${r.asn}` : '', r?.org ?
 // ─────────────────────────────────────────────────────────────
 const PAD: Record<Size, number> = { s: 14, m: 14, l: 16 }
 
-/** 小组件根视图; 背景图和暗化放在 background 里, 不会把内容挤出去 */
+/** One backdrop, independent of padded content. widgetBackground is a view
+ * modifier, not a WidgetKit container setter: only this layer goes full-bleed.
+ * App previews instead retain the root's rounded clipping and border. */
+function Background(props: { ctx: Ctx }) {
+  const { th, inApp } = props.ctx
+  const img = th.image
+  return <ZStack
+    frame={{ maxWidth: 'infinity', maxHeight: 'infinity' }}
+    ignoresSafeArea={!inApp}
+    background={inApp ? th.bg : undefined}
+    widgetBackground={inApp ? undefined : th.bg}
+    clipped
+  >
+    {img ? <Image filePath={img.path} resizable scaleToFill blur={img.blur} /> : null}
+    {img && img.dim > 0 ? <Rectangle fill={`rgba(0,0,0,${img.dim})`} /> : null}
+  </ZStack>
+}
+
+/** The backdrop never participates in content layout. */
 export function Root(props: { ctx: Ctx; spacing?: number; padding?: number; children?: any }) {
   const { ctx } = props
   const { th } = ctx
-  const img = th.image
-  const backdrop = img ? (
-    <ZStack>
-      <Image filePath={img.path} resizable scaleToFill blur={img.blur} />
-      {img.dim > 0 ? <Rectangle fill={`rgba(0,0,0,${img.dim})`} /> : null}
-    </ZStack>
-  ) : undefined
+  const backdrop = <Background ctx={ctx} />
   const content = (
     <VStack
       alignment="leading"
       spacing={props.spacing ?? 8}
       padding={props.padding ?? PAD[ctx.size]}
       frame={{ maxWidth: 'infinity', maxHeight: 'infinity', alignment: 'topLeading' }}
-      background={backdrop}
       clipped
     >
       {props.children}
@@ -195,7 +206,7 @@ export function Root(props: { ctx: Ctx; spacing?: number; padding?: number; chil
     return (
       <ZStack
         frame={{ maxWidth: 'infinity', maxHeight: 'infinity' }}
-        background={<RoundedRectangle cornerRadius={22} fill={th.bg} />}
+        background={backdrop}
         clipShape={{ type: 'rect', cornerRadius: 22 }}
         overlay={<RoundedRectangle cornerRadius={22} stroke={{ shapeStyle: th.border, strokeStyle: { lineWidth: 0.5 } }} />}
       >
@@ -203,7 +214,7 @@ export function Root(props: { ctx: Ctx; spacing?: number; padding?: number; chil
       </ZStack>
     )
   }
-  return <ZStack frame={{ maxWidth: 'infinity', maxHeight: 'infinity' }} widgetBackground={th.bg}>{content}</ZStack>
+  return <ZStack frame={{ maxWidth: 'infinity', maxHeight: 'infinity' }} background={backdrop}>{content}</ZStack>
 }
 
 // ─────────────────────────────────────────────────────────────

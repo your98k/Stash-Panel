@@ -38,12 +38,13 @@ function ReferenceTotal(p: { ctx: Ctx; icon: string; label: string; color: strin
 
 function ReferenceMetric(p: { ctx: Ctx; icon: string; label: string; value?: string; color?: Paint; children?: any }) {
   const { th } = p.ctx
-  return <VStack alignment="leading" spacing={3} frame={{ maxWidth: 'infinity', height: 32, alignment: 'topLeading' }}>
+  return <VStack alignment="leading" spacing={3} frame={{ maxWidth: 'infinity', height: 35, alignment: 'topLeading' }}>
     <HStack spacing={3}>
       <Image systemName={p.icon} font={10} foregroundStyle={th.accent} />
       <Text font={9} foregroundStyle={th.t2} lineLimit={1} minScaleFactor={0.8}>{p.label}</Text>
     </HStack>
-    {p.children ?? <Text font={13} fontWeight="bold" monospacedDigit foregroundStyle={p.color ?? th.t1} lineLimit={1} minScaleFactor={0.65}>{p.value}</Text>}
+    {/* A host may normalize absent JSX children to []; explicit values take priority. */}
+    {p.value !== undefined ? <Text font={13} fontWeight="bold" monospacedDigit foregroundStyle={p.color ?? th.t1} lineLimit={1} minScaleFactor={0.65}>{p.value}</Text> : p.children}
   </VStack>
 }
 
@@ -61,7 +62,8 @@ export function ReferenceStyle(props: { ctx: Ctx }) {
   const quotaNote = !sub ? '添加机场订阅后显示额度' : !u ? '尚未读取额度' : `${sub?.stale ? '额度缓存 · ' : ''}${percent === null ? '不限量' : `剩 ${percent}%`} · ${expiryText}`
   const r = mainGroupLeaf(ctx)?.r
   const canSwitch = !!d && !d.stale && !d.mock && !ctx.inApp && d.mode >= 0 && d.mode <= 2
-  return <Root ctx={ctx} padding={13} spacing={6}>
+  // +3pt metric clearance, -1pt across three gaps: unchanged 157pt medium budget.
+  return <Root ctx={ctx} padding={13} spacing={5}>
     <HStack spacing={5} frame={{ height: 20 }}>
       <Logo size={20} ctx={ctx} />
       <Text font={15} fontWeight="semibold" foregroundStyle={th.t1} lineLimit={1}>Stash</Text>
