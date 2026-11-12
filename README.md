@@ -1,16 +1,39 @@
+<div align="center">
+
+<img src="panels/stash-panel/assets/icon.png" width="84" height="84" alt="Stash-Panel Icon" />
+
 # Stash-Panel
 
-自用及原创的 **Stash 面板与小组件合集**（基于 Scripting / Stash HTTP Control API），持续收录后续制作的各类 Stash 桌面面板、锁屏小组件与控制工具。
+**自用及原创的 Stash 面板与小组件合集**
+基于 **[Scripting](https://scripting.fun)** 与 **Stash HTTP Control API** 构建，持续收录各类桌面小组件、锁屏组件、节点测速与机场用量看板。
+
+[![Panels](https://img.shields.io/badge/Panels-1_Available-0A84FF?style=flat-square)](#收录面板)
+[![Platform](https://img.shields.io/badge/iOS-Scripting-34C759?style=flat-square)](https://scripting.fun)
+[![Stash](https://img.shields.io/badge/Stash-HTTP_Control_API-5856D6?style=flat-square)](https://stash.wiki)
+
+</div>
 
 ---
 
 ## 收录面板
 
-| 面板 | 版本 | 说明 | 预览与文档 | 安装包（Raw） | 安装包（CDN） |
-| :--- | :---: | :--- | :---: | :---: | :---: |
-| **Stash 面板（Stash Panel）** | `v1.1.5` | 全功能桌面与锁屏小组件面板：25 种布局、一键切模式、策略组选节点、实时流量、节点延迟历史、多机场用量预测与控制中心开关 | [详情与预览](panels/stash-panel/README.md) | [下载](https://github.com/your98k/Stash-Panel/raw/main/panels/stash-panel/dist/Stash_Panel.scripting) | [下载](https://cdn.jsdelivr.net/gh/your98k/Stash-Panel@main/panels/stash-panel/dist/Stash_Panel.scripting) |
+| 面板 | 效果预览 | 核心功能 | 安装包 |
+| :--- | :---: | :--- | :---: |
+| **[Stash 面板（Stash Panel）](panels/stash-panel/README.md)**<br>`v1.1.5` | <a href="panels/stash-panel/README.md"><img src="panels/stash-panel/assets/preview-classic.png" width="340" alt="Stash Panel 经典面板预览" /></a> | 25 种桌面与锁屏样式、一键切模式、桌面策略组选节点、实时累计流量、节点延迟折线与可用率、多机场订阅预测与控制中心开关 | [Raw 下载](https://github.com/your98k/Stash-Panel/raw/main/panels/stash-panel/dist/Stash_Panel.scripting)<br>[CDN 下载](https://cdn.jsdelivr.net/gh/your98k/Stash-Panel@main/panels/stash-panel/dist/Stash_Panel.scripting)<br>[查看详情](panels/stash-panel/README.md) |
 
-> 后续新制作的 Stash 面板将按独立目录继续收录在 `panels/` 下，并在本表同步更新。
+---
+
+## 面板画廊预览
+
+### 1. [Stash 面板（Stash Panel `v1.1.5`）](panels/stash-panel/README.md)
+
+<a href="panels/stash-panel/README.md">
+  <img src="panels/stash-panel/assets/preview-banner.png" alt="Stash Panel 功能全景预览" />
+</a>
+
+- **快速导入**：[直接下载 Raw](https://github.com/your98k/Stash-Panel/raw/main/panels/stash-panel/dist/Stash_Panel.scripting) · [jsDelivr CDN](https://cdn.jsdelivr.net/gh/your98k/Stash-Panel@main/panels/stash-panel/dist/Stash_Panel.scripting) · [完整说明与 25 种样式一览](panels/stash-panel/README.md)
+
+> 后续制作的新 Stash 面板将按独立目录存放在 `panels/` 下，并在本页同步展示预览图与下载直链。
 
 ---
 
@@ -18,11 +41,11 @@
 
 ```text
 Stash-Panel/
-├── README.md                     # 仓库总览与全部面板索引
-└── panels/                       # 各个 Stash 面板独立项目目录
+├── README.md                     # 仓库总览、面板画廊预览与下载索引
+└── panels/                       # 各个 Stash 面板独立目录
     └── stash-panel/              # Stash 面板（Stash Panel v1.1.5）
-        ├── README.md             # 面板功能介绍、预览图与安装说明
-        ├── assets/               # 图标与效果图
+        ├── README.md             # 面板功能介绍、样式预览与配置教程
+        ├── assets/               # 图标与效果预览图
         ├── dist/                 # 可直接导入 Scripting 的 .scripting 安装包
         ├── src/                  # TypeScript / TSX 源码
         ├── tests/                # 离线回归检查脚本
@@ -31,16 +54,16 @@ Stash-Panel/
 
 ---
 
-## 通用使用前提
+## 通用安装步骤
 
-1. **安装运行环境**：在 iPhone / iPad 上安装 **[Scripting](https://scripting.fun)** 与 **Stash**。
-2. **开启 Stash 外部控制**：打开 **Stash** →「设置」→「外部控制（External Access）」，开启服务（默认端口 `9090`，按需设置 Secret 密钥）。
-3. **导入面板**：在上方表格中任选面板下载 `.scripting` 安装包，选择「用 **Scripting** 打开」即可导入。
-4. **详细参数与样式**：每个面板的桌面参数、样式预览及更新记录，请进入对应面板目录的 `README.md` 查看。
+1. **安装环境**：确保设备上已安装 **[Scripting](https://scripting.fun)** 与 **Stash**。
+2. **开启外部控制**：打开 **Stash** →「设置」→「外部控制（External Access）」，开启服务（默认端口 `9090`，可按需设置 Secret 密钥）。
+3. **导入面板**：点击上方表格或画廊中的下载链接获取 `.scripting` 文件，选择「用 **Scripting** 打开」即可导入。
+4. **添加组件**：在 iOS 主屏幕 / 锁屏添加 **Scripting** 小组件并选择对应脚本；详细参数与样式说明见各面板目录下的 `README.md`。
 
 ---
 
 ## 说明
 
-- 原生适配 **Stash HTTP Control API**，不修改现有 Stash 分流规则与配置。
+- 原生调用 **Stash HTTP Control API**，不修改现有 Stash 分流规则与配置。
 - 本仓库所有面板仅供个人学习、研究与自用。
