@@ -9,14 +9,11 @@ import { ModeIntent, CheckIntent, RefreshIntent, readNote } from '../app_intents
 import { mainGroupLeaf } from './node'
 import { PageButton, GroupCell, PickerStyle, Tap } from './net'
 import { pct, fcColor, staleMark } from './usage'
-import { Root, Logo, Num, Spark, latencyText, latencyInk, nodeLabel, Bar, RefreshButton, chunk, usageColor, mediaColor, flag, syncText, hhmm, Dot, OK, BAD, WARN, type Ctx } from '../ui'
+import { Root, Logo, Num, Spark, latencyText, latencyInk, nodeLabel, Bar, RefreshButton, chunk, usageColor, mediaColor, flag, syncText, hhmm, Dot, withAlpha, OK, BAD, WARN, type Ctx, type Paint } from '../ui'
 
 // REF: screenshot composition requested by the user; built on MaYIHEI's Scripting
 // Stash Panel primitives, adapted for Stash. Runtime totals and subscription quota
-// are intentionally separate. White in both appearances to preserve the reference.
-const REF_INK = '#1C1C1E'
-const REF_GRAY = '#8E8E93'
-const REF_BLUE = '#007AFF'
+// are intentionally separate. Colors follow the shared adaptive/custom appearance.
 const REF_GREEN = '#34A853'
 
 /** Stash runtime bytes; unavailable is not a fictional zero. */
@@ -28,29 +25,31 @@ function referenceBytes(n?: number): string {
   return `${i === 0 ? Math.round(n) : (n / 1024 ** i).toFixed(1)} ${units[i]}`
 }
 
-function ReferenceTotal(p: { icon: string; label: string; color: string; value?: number }) {
+function ReferenceTotal(p: { ctx: Ctx; icon: string; label: string; color: string; value?: number }) {
+  const { th } = p.ctx
   return <VStack alignment="leading" spacing={2} frame={{ maxWidth: 'infinity', height: 49, alignment: 'leading' }}>
     <HStack spacing={4}>
       <Image systemName={p.icon} font={12} foregroundStyle={p.color} />
-      <Text font={11} foregroundStyle={REF_GRAY} lineLimit={1}>{p.label}</Text>
+      <Text font={11} foregroundStyle={th.t2} lineLimit={1}>{p.label}</Text>
     </HStack>
-    <Text font={26} fontWeight="bold" monospacedDigit foregroundStyle={REF_INK} lineLimit={1} minScaleFactor={0.65}>{referenceBytes(p.value)}</Text>
+    <Text font={26} fontWeight="bold" monospacedDigit foregroundStyle={th.t1} lineLimit={1} minScaleFactor={0.65}>{referenceBytes(p.value)}</Text>
   </VStack>
 }
 
-function ReferenceMetric(p: { icon: string; label: string; value?: string; color?: string; children?: any }) {
+function ReferenceMetric(p: { ctx: Ctx; icon: string; label: string; value?: string; color?: Paint; children?: any }) {
+  const { th } = p.ctx
   return <VStack alignment="leading" spacing={3} frame={{ maxWidth: 'infinity', height: 32, alignment: 'topLeading' }}>
     <HStack spacing={3}>
-      <Image systemName={p.icon} font={10} foregroundStyle={REF_BLUE} />
-      <Text font={9} foregroundStyle={REF_GRAY} lineLimit={1} minScaleFactor={0.8}>{p.label}</Text>
+      <Image systemName={p.icon} font={10} foregroundStyle={th.accent} />
+      <Text font={9} foregroundStyle={th.t2} lineLimit={1} minScaleFactor={0.8}>{p.label}</Text>
     </HStack>
-    {p.children ?? <Text font={13} fontWeight="bold" monospacedDigit foregroundStyle={p.color ?? REF_INK} lineLimit={1} minScaleFactor={0.65}>{p.value}</Text>}
+    {p.children ?? <Text font={13} fontWeight="bold" monospacedDigit foregroundStyle={p.color ?? th.t1} lineLimit={1} minScaleFactor={0.65}>{p.value}</Text>}
   </VStack>
 }
 
 export function ReferenceStyle(props: { ctx: Ctx }) {
-  // Isolated palette: do not alter the user's appearance for other styles.
-  const ctx: Ctx = { ...props.ctx, th: { ...props.ctx.th, bg: '#FFFFFF', border: '#EEEEF0', image: undefined } }
+  const { ctx } = props
+  const { th } = ctx
   const d = ctx.stash
   const sub = ctx.subs[0]
   const u = sub?.usage
@@ -65,40 +64,40 @@ export function ReferenceStyle(props: { ctx: Ctx }) {
   return <Root ctx={ctx} padding={13} spacing={6}>
     <HStack spacing={5} frame={{ height: 20 }}>
       <Logo size={20} ctx={ctx} />
-      <Text font={15} fontWeight="semibold" foregroundStyle={REF_INK} lineLimit={1}>Stash</Text>
+      <Text font={15} fontWeight="semibold" foregroundStyle={th.t1} lineLimit={1}>Stash</Text>
       <Dot size={5} color={d && !d.stale ? REF_GREEN : '#FF9500'} />
       {!d || d.stale ? <HStack spacing={2}>
         <Image systemName="exclamationmark.triangle.fill" font={8} foregroundStyle="#FF9500" />
-        <Text font={9} foregroundStyle={REF_GRAY} lineLimit={1}>{d ? '缓存' : '未连接'}</Text>
+        <Text font={9} foregroundStyle={th.t2} lineLimit={1}>{d ? '缓存' : '未连接'}</Text>
       </HStack> : null}
       <Spacer minLength={0} />
-      <Text font={10} foregroundStyle={REF_GRAY} lineLimit={1} minScaleFactor={0.75}>{d ? `${d.mock ? '示例 · ' : ''}更新于 ${hhmm(d.t)}` : '更新于 —'}</Text>
+      <Text font={10} foregroundStyle={th.t2} lineLimit={1} minScaleFactor={0.75}>{d ? `${d.mock ? '示例 · ' : ''}更新于 ${hhmm(d.t)}` : '更新于 —'}</Text>
       <Tap ctx={ctx} intent={!ctx.inApp ? RefreshIntent(undefined) : undefined}>
-        <Image systemName="arrow.clockwise" font={10} fontWeight="semibold" foregroundStyle={REF_GRAY} frame={{ width: 20, height: 20 }} background={<Capsule fill="#F3F3F5" />} />
+        <Image systemName="arrow.clockwise" font={10} fontWeight="semibold" foregroundStyle={th.t2} frame={{ width: 20, height: 20 }} background={<Capsule fill={th.card} />} />
       </Tap>
     </HStack>
     <HStack spacing={12}>
-      <ReferenceTotal icon="arrow.down.circle.fill" label="累计下行" color={REF_GREEN} value={d?.speed?.downloadTotal} />
-      <Rectangle fill="#ECECEE" frame={{ width: 0.5, height: 39 }} />
-      <ReferenceTotal icon="arrow.up.circle.fill" label="累计上行" color="#FF9500" value={d?.speed?.uploadTotal} />
+      <ReferenceTotal ctx={ctx} icon="arrow.down.circle.fill" label="累计下行" color={REF_GREEN} value={d?.speed?.downloadTotal} />
+      <Rectangle fill={th.border} frame={{ width: 0.5, height: 39 }} />
+      <ReferenceTotal ctx={ctx} icon="arrow.up.circle.fill" label="累计上行" color="#FF9500" value={d?.speed?.uploadTotal} />
     </HStack>
     <HStack spacing={5}>
-      <ReferenceMetric icon="cpu" label="策略组数" value={d ? String(d.groups.length) : '—'} />
-      <ReferenceMetric icon="link" label="节点延迟" value={!r ? '未测' : !r.ok ? '超时' : `${r.ms} ms`} />
-      <ReferenceMetric icon="gauge.with.needle" label="剩余流量" value={!sub ? '未添加' : !u ? '未读取' : hasQuota ? referenceBytes(remain) : '不限量'} color={u ? REF_GREEN : REF_GRAY} />
-      <ReferenceMetric icon="arrow.triangle.branch" label="运行模式">
+      <ReferenceMetric ctx={ctx} icon="cpu" label="策略组数" value={d ? String(d.groups.length) : '—'} />
+      <ReferenceMetric ctx={ctx} icon="link" label="节点延迟" value={!r ? '未测' : !r.ok ? '超时' : `${r.ms} ms`} />
+      <ReferenceMetric ctx={ctx} icon="gauge.with.needle" label="剩余流量" value={!sub ? '未添加' : !u ? '未读取' : hasQuota ? referenceBytes(remain) : '不限量'} color={u ? REF_GREEN : th.t2} />
+      <ReferenceMetric ctx={ctx} icon="arrow.triangle.branch" label="运行模式">
         <Tap ctx={ctx} intent={canSwitch ? ModeIntent({ mode: (d!.mode + 1) % 3 }) : undefined}>
-          <HStack spacing={3} padding={{ horizontal: 7, vertical: 2 }} background={<Capsule fill="#EAF3FF" />}>
-            <Text font={11} fontWeight="semibold" foregroundStyle={REF_BLUE} lineLimit={1}>{d ? modeName(d.mode) : '未知'}</Text>
-            <Image systemName="arrow.triangle.2.circlepath" font={9} foregroundStyle={REF_BLUE} />
+          <HStack spacing={3} padding={{ horizontal: 7, vertical: 2 }} background={<Capsule fill={withAlpha(th.accent, 0.16)} />}>
+            <Text font={11} fontWeight="semibold" foregroundStyle={th.accent} lineLimit={1}>{d ? modeName(d.mode) : '未知'}</Text>
+            <Image systemName="arrow.triangle.2.circlepath" font={9} foregroundStyle={th.accent} />
           </HStack>
         </Tap>
       </ReferenceMetric>
     </HStack>
     <HStack spacing={3} frame={{ height: 12 }}>
-      <Text font={9} foregroundStyle={REF_GRAY} lineLimit={1} minScaleFactor={0.7}>{u ? `Stash · 总额 ${hasQuota ? referenceBytes(u.total) : '不限量'}` : 'Stash'}</Text>
+      <Text font={9} foregroundStyle={th.t2} lineLimit={1} minScaleFactor={0.7}>{u ? `Stash · 总额 ${hasQuota ? referenceBytes(u.total) : '不限量'}` : 'Stash'}</Text>
       <Spacer minLength={0} />
-      <Text font={9} foregroundStyle={!u ? REF_GRAY : sub?.stale || (expiry !== null && expiry <= 0) ? '#D18A00' : REF_GREEN} lineLimit={1} minScaleFactor={0.65}>{quotaNote}</Text>
+      <Text font={9} foregroundStyle={!u ? th.t2 : sub?.stale || (expiry !== null && expiry <= 0) ? '#D18A00' : REF_GREEN} lineLimit={1} minScaleFactor={0.65}>{quotaNote}</Text>
     </HStack>
   </Root>
 }
