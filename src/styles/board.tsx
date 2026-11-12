@@ -27,7 +27,7 @@ function referenceBytes(n?: number): string {
 
 function ReferenceTotal(p: { ctx: Ctx; icon: string; label: string; color: string; value?: number }) {
   const { th } = p.ctx
-  return <VStack alignment="leading" spacing={2} frame={{ maxWidth: 'infinity', height: 49, alignment: 'leading' }}>
+  return <VStack alignment="center" spacing={2} frame={{ minWidth: 0, maxWidth: 'infinity', minHeight: 49, maxHeight: 49, alignment: 'center' }}>
     <HStack spacing={4}>
       <Image systemName={p.icon} font={12} foregroundStyle={p.color} />
       <Text font={11} foregroundStyle={th.t2} lineLimit={1}>{p.label}</Text>
@@ -38,7 +38,7 @@ function ReferenceTotal(p: { ctx: Ctx; icon: string; label: string; color: strin
 
 function ReferenceMetric(p: { ctx: Ctx; icon: string; label: string; value?: string; color?: Paint; children?: any }) {
   const { th } = p.ctx
-  return <VStack alignment="leading" spacing={3} frame={{ maxWidth: 'infinity', height: 35, alignment: 'topLeading' }}>
+  return <VStack alignment="center" spacing={3} frame={{ minWidth: 0, maxWidth: 'infinity', minHeight: 35, maxHeight: 35, alignment: 'center' }}>
     <HStack spacing={3}>
       <Image systemName={p.icon} font={10} foregroundStyle={th.accent} />
       <Text font={9} foregroundStyle={th.t2} lineLimit={1} minScaleFactor={0.8}>{p.label}</Text>
@@ -78,12 +78,12 @@ export function ReferenceStyle(props: { ctx: Ctx }) {
         <Image systemName="arrow.clockwise" font={10} fontWeight="semibold" foregroundStyle={th.t2} frame={{ width: 20, height: 20 }} background={<Capsule fill={th.card} />} />
       </Tap>
     </HStack>
-    <HStack spacing={12}>
+    <HStack spacing={12} frame={{ maxWidth: 'infinity' }}>
       <ReferenceTotal ctx={ctx} icon="arrow.down.circle.fill" label="累计下行" color={REF_GREEN} value={d?.speed?.downloadTotal} />
       <Rectangle fill={th.border} frame={{ width: 0.5, height: 39 }} />
       <ReferenceTotal ctx={ctx} icon="arrow.up.circle.fill" label="累计上行" color="#FF9500" value={d?.speed?.uploadTotal} />
     </HStack>
-    <HStack spacing={5}>
+    <HStack spacing={5} frame={{ maxWidth: 'infinity' }}>
       <ReferenceMetric ctx={ctx} icon="cpu" label="策略组数" value={d ? String(d.groups.length) : '—'} />
       <ReferenceMetric ctx={ctx} icon="link" label="节点延迟" value={!r ? '未测' : !r.ok ? '超时' : `${r.ms} ms`} />
       <ReferenceMetric ctx={ctx} icon="gauge.with.needle" label="剩余流量" value={!sub ? '未添加' : !u ? '未读取' : hasQuota ? referenceBytes(remain) : '不限量'} color={u ? REF_GREEN : th.t2} />
