@@ -19,13 +19,13 @@
 
 | 面板 | 效果预览 | 核心功能 | 安装包 |
 | :--- | :---: | :--- | :---: |
-| **[Stash 面板（Stash Panel）](panels/stash-panel/README.md)**<br>`v1.1.5` | <a href="panels/stash-panel/README.md"><img src="panels/stash-panel/assets/preview-classic.png" width="340" alt="Stash Panel 经典面板预览" /></a> | 25 种桌面与锁屏样式、一键切模式、桌面策略组选节点、实时累计流量、节点延迟折线与可用率、多机场订阅预测与控制中心开关 | [Raw 下载](https://github.com/your98k/Stash-Panel/raw/main/panels/stash-panel/dist/Stash_Panel.scripting)<br>[CDN 下载](https://cdn.jsdelivr.net/gh/your98k/Stash-Panel@main/panels/stash-panel/dist/Stash_Panel.scripting)<br>[查看详情](panels/stash-panel/README.md) |
+| **[Stash 面板（Stash Panel）](panels/stash-panel/README.md)**<br>`v1.1.6` | <a href="panels/stash-panel/README.md"><img src="panels/stash-panel/assets/preview-classic.png" width="340" alt="Stash Panel 经典面板预览" /></a> | 25 种桌面与锁屏样式、一键切模式、桌面策略组选节点、实时累计流量、节点延迟折线与可用率、多机场订阅预测与控制中心开关 | [Raw 下载](https://github.com/your98k/Stash-Panel/raw/main/panels/stash-panel/dist/Stash_Panel.scripting)<br>[CDN 下载](https://cdn.jsdelivr.net/gh/your98k/Stash-Panel@main/panels/stash-panel/dist/Stash_Panel.scripting)<br>[查看详情](panels/stash-panel/README.md) |
 
 ---
 
 ## 面板画廊预览
 
-### 1. [Stash 面板（Stash Panel `v1.1.5`）](panels/stash-panel/README.md)
+### 1. [Stash 面板（Stash Panel `v1.1.6`）](panels/stash-panel/README.md)
 
 <a href="panels/stash-panel/README.md">
   <img src="panels/stash-panel/assets/preview-banner.png" alt="Stash Panel 功能全景预览" />
@@ -43,7 +43,7 @@
 Stash-Panel/
 ├── README.md                     # 仓库总览、面板画廊预览与下载索引
 └── panels/                       # 各个 Stash 面板独立目录
-    └── stash-panel/              # Stash 面板（Stash Panel v1.1.5）
+    └── stash-panel/              # Stash 面板（Stash Panel v1.1.6）
         ├── README.md             # 面板功能介绍、样式预览与配置教程
         ├── assets/               # 图标与效果预览图
         ├── dist/                 # 可直接导入 Scripting 的 .scripting 安装包

@@ -10,7 +10,7 @@
 
 直连本机 Stash 外部控制接口，开箱即用，支持**一键切换模式、桌面策略组选节点、实时累计流量、节点延迟历史与多机场用量预测**。
 
-[![Version](https://img.shields.io/badge/Version-v1.1.5-0A84FF?style=flat-square)](https://github.com/your98k/Stash-Panel/tree/main/panels/stash-panel)
+[![Version](https://img.shields.io/badge/Version-v1.1.6-0A84FF?style=flat-square)](https://github.com/your98k/Stash-Panel/tree/main/panels/stash-panel)
 [![Platform](https://img.shields.io/badge/iOS-Scripting-34C759?style=flat-square)](https://scripting.fun)
 [![Stash](https://img.shields.io/badge/Stash-HTTP_Control_API-5856D6?style=flat-square)](https://stash.wiki)
 
@@ -101,7 +101,7 @@ panels/stash-panel/
 │   └── preview-classic.png   # 经典中号面板预览图
 ├── dist/
 │   ├── Stash_Panel.scripting        # 最新版安装包（直接导入 Scripting）
-│   └── Stash_Panel_1.1.5.scripting  # v1.1.5 归档包
+│   └── Stash_Panel_1.1.6.scripting  # v1.1.6 归档包
 ├── package.json              # 离线回归测试脚本配置
 ├── tests/                    # 离线语法、打包与主题回归检查
 └── src/                      # 完整 Scripting TypeScript / TSX 源码
