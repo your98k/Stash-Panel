@@ -1,0 +1,13 @@
+{
+  "name": "stash-panel-checks",
+  "private": true,
+  "version": "1.1.5",
+  "description": "Offline source regressions; not a native Scripting renderer",
+  "scripts": {
+    "test": "node tests/stash-panel-theme-check.cjs && node tests/stash-panel-check.cjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12",
+    "typescript": "5.9.3"
+  }
+}

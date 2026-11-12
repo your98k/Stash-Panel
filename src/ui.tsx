@@ -2,7 +2,7 @@
 // 外观 (素净 / 自定义) + 各样式共用的部件, 写法和 checkin 一致. 小组件和 App 内预览共用同一套视图
 // 背景图只放在背景层 (background), 不参与内容布局
 
-import { VStack, HStack, ZStack, Text, Spacer, Image, Button, Link, Circle, Capsule, Rectangle, RoundedRectangle, Path, Script } from 'scripting'
+import { VStack, HStack, ZStack, Text, Spacer, Image, Button, Link, Circle, Capsule, Rectangle, RoundedRectangle, Path, Script, Widget } from 'scripting'
 import type { Color, DynamicShapeStyle } from 'scripting'
 
 import type { Look, Prefs } from './settings'
@@ -168,9 +168,9 @@ export const asnText = (r?: NodeResult) => [r?.asn ? `AS${r.asn}` : '', r?.org ?
 // ─────────────────────────────────────────────────────────────
 const PAD: Record<Size, number> = { s: 14, m: 14, l: 16 }
 
-/** One backdrop, independent of padded content. widgetBackground is a view
- * modifier, not a WidgetKit container setter: only this layer goes full-bleed.
- * App previews instead retain the root's rounded clipping and border. */
+/** Explicit preview/custom backdrop only. widgetBackground is a view modifier,
+ * not a setter for the host's native surface. Root omits this entire layer for
+ * plain native widgets and host-owned transparent/blur/image backgrounds. */
 function Background(props: { ctx: Ctx }) {
   const { th, inApp } = props.ctx
   const img = th.image
@@ -190,7 +190,11 @@ function Background(props: { ctx: Ctx }) {
 export function Root(props: { ctx: Ctx; spacing?: number; padding?: number; children?: any }) {
   const { ctx } = props
   const { th } = ctx
-  const backdrop = <Background ctx={ctx} />
+  // Custom appearance intentionally paints its chosen color/image, except when
+  // the host supplies the backdrop. In particular, do not overlay a custom image
+  // there: widgetBackground's automatic suppression does not cover Image children.
+  const paintBackdrop = ctx.inApp || (th.custom && !Widget.isTransparentMode && !Widget.isBlurMode && !Widget.isTransparentBackground)
+  const backdrop = paintBackdrop ? <Background ctx={ctx} /> : undefined
   const content = (
     <VStack
       alignment="leading"
