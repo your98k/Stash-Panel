@@ -1,0 +1,28 @@
+{
+  "intentInputTypes": [],
+  "runInApp": false,
+  "icon": "gauge.with.dots.needle.67percent",
+  "name": "Stash Panel",
+  "description": "Stash status, proxy group switching, node health & latency check, and subscription usage panel",
+  "version": "1.1.2",
+  "localizedNames": {
+    "en": "Stash Panel",
+    "zh": "Stash 面板"
+  },
+  "entry": "index.tsx",
+  "contributors": [],
+  "remoteResource": null,
+  "localizedDescriptions": {
+    "zh": "Stash 原生模式和策略组切换、节点延迟与历史、多机场用量趋势和预测、桌面与锁屏小组件。",
+    "en": "Native Stash mode and proxy group controls, real delay history, subscription usage and forecasts, and home/lock screen widgets."
+  },
+  "color": "rgba(10, 132, 255, 1)",
+  "iconImage": "assets/icon.png",
+  "remoteDefinitionId": null,
+  "permissions": null,
+  "author": {
+    "name": "your98k",
+    "email": "",
+    "homepage": "https://github.com/your98k/Stash-Panel"
+  }
+}
