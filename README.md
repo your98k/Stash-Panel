@@ -20,7 +20,7 @@
 | 面板 | 效果预览 | 核心功能 | 安装包 |
 | :--- | :---: | :--- | :---: |
 | **[Stash 面板（Stash Panel）](panels/stash-panel/README.md)**<br>`v1.1.6` | <a href="panels/stash-panel/README.md"><img src="panels/stash-panel/assets/preview-classic.png" width="340" alt="Stash Panel 经典面板预览" /></a> | 25 种桌面与锁屏样式、一键切模式、桌面策略组选节点、实时累计流量、节点延迟折线与可用率、多机场订阅预测与控制中心开关 | [Raw 下载](https://github.com/your98k/Stash-Panel/raw/main/panels/stash-panel/dist/Stash_Panel.scripting)<br>[CDN 下载](https://cdn.jsdelivr.net/gh/your98k/Stash-Panel@main/panels/stash-panel/dist/Stash_Panel.scripting)<br>[查看详情](panels/stash-panel/README.md) |
-| **[网络诊断雷达（Network Radar）](panels/network-radar/README.md)**<br>`v1.0.0` | <a href="panels/network-radar/README.md"><img src="panels/network-radar/assets/preview-large-dark.png" width="340" alt="Network Radar 预览" /></a> | 出口 IP 与风险参考评分、代理/直连延迟、12 项流媒体与 AI 网页可达性、当前出口节点实测归属、深浅色自适应 | [Raw 下载](https://github.com/your98k/Stash-Panel/raw/main/panels/network-radar/dist/Network_Radar.scripting)<br>[CDN 下载](https://cdn.jsdelivr.net/gh/your98k/Stash-Panel@main/panels/network-radar/dist/Network_Radar.scripting)<br>[查看详情](panels/network-radar/README.md) |
+| **[网络诊断雷达（Network Radar）](panels/network-radar/README.md)**<br>`v1.0.0` | <a href="panels/network-radar/README.md"><img src="panels/network-radar/assets/preview-large.jpg" width="340" alt="Network Radar 预览" /></a> | 出口 IP 与风险参考评分、代理/直连延迟、12 项流媒体与 AI 网页可达性、当前出口节点实测归属、深浅色自适应 | [Raw 下载](https://github.com/your98k/Stash-Panel/raw/main/panels/network-radar/dist/Network_Radar.scripting)<br>[CDN 下载](https://cdn.jsdelivr.net/gh/your98k/Stash-Panel@main/panels/network-radar/dist/Network_Radar.scripting)<br>[查看详情](panels/network-radar/README.md) |
 
 ---
 
@@ -37,7 +37,7 @@
 ### 2. [网络诊断雷达（Network Radar `v1.0.0`）](panels/network-radar/README.md)
 
 <a href="panels/network-radar/README.md">
-  <img src="panels/network-radar/assets/preview-large-dark.png" alt="Network Radar 深色大号预览" />
+  <img src="panels/network-radar/assets/preview-large.jpg" alt="Network Radar 深色大号预览" />
 </a>
 
 - **快速导入**：[直接下载 Raw](https://github.com/your98k/Stash-Panel/raw/main/panels/network-radar/dist/Network_Radar.scripting) · [jsDelivr CDN](https://cdn.jsdelivr.net/gh/your98k/Stash-Panel@main/panels/network-radar/dist/Network_Radar.scripting) · [完整说明](panels/network-radar/README.md)
