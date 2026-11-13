@@ -1,0 +1,20 @@
+{
+  "name" : "Stash 网络诊断雷达",
+  "entry" : "index.tsx",
+  "icon" : "dot.radiowaves.left.and.right",
+  "color" : "rgba(76, 141, 255, 1)",
+  "version" : "1.0.5",
+  "runInApp" : true,
+  "description" : "出口 IP / 参考评分 / 延迟 / 网页可达性检测与 Stash 只读状态展示，无需覆写或配套脚本。",
+  "localizedNames" : {
+    "zh" : "Stash 网络诊断雷达",
+    "en" : "Stash Network Radar"
+  },
+  "localizedDescriptions" : {
+    "zh" : "出口 IP / 参考评分 / 延迟 / 网页可达性检测与 Stash 只读状态展示，无需覆写或配套脚本。",
+    "en" : "Exit IP, reference score, latency, web reachability, and read-only Stash state."
+  },
+  "contributors" : [],
+  "permissions" : null,
+  "intentInputTypes" : []
+}
