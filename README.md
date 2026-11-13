@@ -34,6 +34,16 @@
 
 - **快速导入**：[直接下载 Raw](https://github.com/your98k/Stash-Panel/raw/main/panels/stash-panel/dist/Stash_Panel.scripting) · [jsDelivr CDN](https://cdn.jsdelivr.net/gh/your98k/Stash-Panel@main/panels/stash-panel/dist/Stash_Panel.scripting) · [完整说明与 25 种样式一览](panels/stash-panel/README.md)
 
+### 2. [网络诊断雷达（Network Radar `v1.0.0`）](panels/network-radar/README.md)
+
+<a href="panels/network-radar/README.md">
+  <img src="panels/network-radar/assets/preview-large-dark.png" alt="Network Radar 深色大号预览" />
+</a>
+
+- **快速导入**：[直接下载 Raw](https://github.com/your98k/Stash-Panel/raw/main/panels/network-radar/dist/Network_Radar.scripting) · [jsDelivr CDN](https://cdn.jsdelivr.net/gh/your98k/Stash-Panel@main/panels/network-radar/dist/Network_Radar.scripting) · [完整说明](panels/network-radar/README.md)
+- 只读体检工具：不切节点、不改模式、不写配置，默认无凭据。
+- 出口节点取自 Stash `/connections` 的真实链路，服务的节点归属实测回填，不猜地区。
+
 > 后续制作的新 Stash 面板将按独立目录存放在 `panels/` 下，并在本页同步展示预览图与下载直链。
 
 ---
