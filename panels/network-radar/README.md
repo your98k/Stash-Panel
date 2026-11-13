@@ -18,18 +18,17 @@
 
 ## 效果预览
 
-![大号样式（深色）](assets/preview-large-dark.png)
+<table>
+<tr>
+<td width="62%" valign="top"><img src="assets/preview-large.jpg" alt="大号面板（实机）" /></td>
+<td width="38%" valign="top">
+<img src="assets/preview-medium.jpg" alt="中号面板（实机）" /><br />
+<img src="assets/preview-small.jpg" alt="小号面板（实机）" />
+</td>
+</tr>
+</table>
 
-<details>
-<summary>展开中号 / 小号 / 浅色预览</summary>
-
-![中号样式](assets/preview-medium.png)
-
-![小号样式](assets/preview-small.png)
-
-![大号样式（浅色）](assets/preview-large-light.png)
-
-</details>
+> 以上均为真机截图（大号 / 中号 / 小号）。图中 IP、节点名与运营商已打码，评分为示意数据。
 
 ---
 
